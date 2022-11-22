@@ -43,12 +43,6 @@ import * as TableAPI from '../utils/TableAPI';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  // { id: 'name', label: 'Name', alignRight: false },
-  // { id: 'company', label: 'Company', alignRight: false },
-  // { id: 'role', label: 'Role', alignRight: false },
-  // { id: 'isVerified', label: 'Verified', alignRight: false },
-  // { id: 'status', label: 'Status', alignRight: false },
-  // { id: '' },
   { id: 'Category', label: 'Category', alignRight: false },
   { id: 'Date', label: 'Date', alignRight: false },
   { id: 'Amount', label: 'Amount', alignRight: false },
@@ -100,6 +94,8 @@ export default function BookPage() {
   )}, []);
   
   const addLine = (newline) => {
+    console.log("addLine");
+    alert("addline");
     setError(null);
     setLoad(true);
     setTables([...tables, newline]);
