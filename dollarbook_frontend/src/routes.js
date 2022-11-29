@@ -16,31 +16,28 @@ export default function Router() {
   const routes = useRoutes([
     {
       path: '/',
-      element: <DashboardLayout />,
-      children: [
-        { element: <Navigate to="/dashboard" />, index: true },
-        { path: 'dashboard', element: <DashboardApp /> },
-        { path: 'analysis', element: <AnalysisPage /> },
-        { path: 'dollarbook', element: <BookPage /> },
-        { path: 'profile', element: <ProfilePage /> },
-      ],
+      element: <Navigate to = '/login' />
     },
     {
-      path: 'login',
+      path: '/login',
       element: <LoginPage />,
     },
     {
-      element: <SimpleLayout />,
+      path: '/home',
+      element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
-        { path: '404', element: <Page404 /> },
-        { path: '*', element: <Navigate to="/404" /> },
+        { element: <Navigate to="dashboard" />, index: true },
+        { path: '/home/dashboard', element: <DashboardApp /> },
+        { path: '/home/analysis', element: <AnalysisPage /> },
+        { path: '/home/dollarbook', element: <BookPage /> },
+        { path: '/home/profile', element: <ProfilePage /> },
       ],
     },
     {
       path: '*',
       element: <Navigate to="/404" replace />,
-    }
+    },
+    { path: '404', element: <Page404 /> }
   ]);
   
 

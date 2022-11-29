@@ -1,7 +1,8 @@
 import { Helmet } from 'react-helmet-async';
+import { useState, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography, getAccordionDetailsUtilityClass } from '@mui/material';
 
 // sections
 import {
@@ -9,10 +10,80 @@ import {
   AppConversionRates,
 } from '../sections/@dashboard/app';
 
+// utils
+import * as TableAPI from '../utils/TableAPI';
+import { getCurrentUser } from '../utils/AuthUtils';
 // ----------------------------------------------------------------------
 
 export default function AnalysisPage() {
   const theme = useTheme();
+  const [tables, setTables] = useState([]);
+
+  useEffect(() => {
+    TableAPI.getAll(getCurrentUser().id).then(
+      res => {
+        setTables(res.data);
+      }
+    ).catch(
+      err => {
+      }
+  )}, []);
+
+  const getFood = () => {
+    const amount = tables.reduce((total, curr) => { 
+      if(curr.category === 'Food') total += curr.amount;
+      return total;
+    },0)
+    return amount;
+  }
+
+  const getShopping = () => {
+    const amount = tables.reduce((total, curr) => { 
+      if(curr.category === 'Shopping') total += curr.amount;
+      return total;
+    },0)
+    return amount;
+  }
+
+  const getTransportation = () => {
+    const amount = tables.reduce((total, curr) => { 
+      if(curr.category === 'Transportation') total += curr.amount;
+      return total;
+    },0)
+    return amount;
+  }
+  
+  const getEntertainment = () => {
+    const amount = tables.reduce((total, curr) => { 
+      if(curr.category === 'Entertainment') total += curr.amount;
+      return total;
+    },0)
+    return amount;
+  }
+
+  const getRental = () => {
+    const amount = tables.reduce((total, curr) => { 
+      if(curr.category === 'Rental') total += curr.amount;
+      return total;
+    },0)
+    return amount;
+  }
+
+  const getTravel = () => {
+    const amount = tables.reduce((total, curr) => { 
+      if(curr.category === 'Travel') total += curr.amount;
+      return total;
+    },0)
+    return amount;
+  }
+
+  const getCar = () => {
+    const amount = tables.reduce((total, curr) => { 
+      if(curr.category === 'Car') total += curr.amount;
+      return total;
+    },0)
+    return amount;
+  }
 
   return (
     <>
@@ -30,10 +101,13 @@ export default function AnalysisPage() {
             <AppCurrentVisits
               title="Current Visits"
               chartData={[
-                { label: 'America', value: 4344 },
-                { label: 'Asia', value: 5435 },
-                { label: 'Europe', value: 1443 },
-                { label: 'Africa', value: 4443 },
+                { label: 'Food', value: getFood() },
+                { label: 'Shopping', value: getShopping() },
+                { label: 'Transportation', value: getTransportation() },
+                { label: 'Entertainment', value: getEntertainment() },
+                { label: 'Rental', value: getRental() },
+                { label: 'Travel', value: getTravel() },
+                { label: 'Car', value: getCar() },
               ]}
               chartColors={[
                 theme.palette.primary.main,
@@ -49,16 +123,13 @@ export default function AnalysisPage() {
               title="Conversion Rates"
               subheader="(+43%) than last year"
               chartData={[
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1380 },
+                { label: 'Food', value: getFood() },
+                { label: 'Shopping', value: getShopping() },
+                { label: 'Transportation', value: getTransportation() },
+                { label: 'Entertainment', value: getEntertainment() },
+                { label: 'Rental', value: getRental() },
+                { label: 'Travel', value: getTravel() },
+                { label: 'Car', value: getCar() },
               ]}
             />
           </Grid>

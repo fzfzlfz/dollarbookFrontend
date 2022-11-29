@@ -88,6 +88,22 @@ const TableCreate = (props) => {
         props.table.selectedRow(props.table.category);
     }
     
+    const categoryMap = {
+        Food: "/assets/images/category/food.png",
+        Shopping: "/assets/images/category/shopping.png",
+        Transportation: "/assets/images/category/transportation.png",
+        Entertainment: "/assets/images/category/entertainment.png",
+        Rental: "/assets/images/category/rental.png",
+        Travel: "/assets/images/category/travel.png",
+        Car: "/assets/images/category/car.png",
+    } 
+
+    const findPhoto = (category) => {
+        const link = categoryMap[category];
+        alert(link);
+        return link;
+    }
+    
       
     const handleView = () => {
         return (
@@ -98,7 +114,7 @@ const TableCreate = (props) => {
 
                 <TableCell component="th" scope="row" padding="none">
                     <Stack direction="row" alignItems="center" spacing={2}>
-                    <Avatar alt={props.table.category} src={props.table.avatarUrl} />
+                    <Avatar alt={props.table.category} src={categoryMap[props.table.category]} />
                     <Typography variant="subtitle2" noWrap>
                         {props.table.category}
                     </Typography>

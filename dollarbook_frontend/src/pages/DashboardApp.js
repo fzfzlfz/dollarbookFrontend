@@ -1,9 +1,8 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useState} from 'react';
 // @mui
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Container, Stack, Typography } from '@mui/material';
-
-
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
@@ -17,6 +16,14 @@ export default function DashboardApp() {
     setOpenFilter(false);
   };
 
+  const theme = createTheme({
+    typography: {
+      // Tell MUI what the font-size on the html element is.
+      htmlFontSize: 5,
+      fontFamily: 'Raleway, Arial',
+    },
+  });
+
   return (
     <>
       <Helmet>
@@ -24,18 +31,20 @@ export default function DashboardApp() {
       </Helmet>
 
       <Container>
-      <Typography variant="h1" sx={{ mb: 5 }}>
-          Hi, Welcome back to $BOOK
-      </Typography>
-      <h3>
-          Use $BOOK keep track of your daily spendings 🕶 
-      </h3>
-      <h3>
-          See the analysis of your spending habits 😍
-      </h3>
-      <h3>
-        Make Your Dollar Under Control!ヾ(=･ω･=)o
-      </h3>
+        <ThemeProvider theme={theme}>
+          <Typography>
+              Hi, Welcome back to $BOOK
+          </Typography>
+          <h3>
+              Use $BOOK keep track of your daily spendings 🕶 
+          </h3>
+          <h3>
+              See the analysis of your spending habits 😍
+          </h3>
+          <h3>
+            Make Your Dollar Under Control!ヾ(=･ω･=)o
+          </h3>
+        </ThemeProvider>
       </Container>
     </>
   );

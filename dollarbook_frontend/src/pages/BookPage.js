@@ -22,19 +22,17 @@ import {
   IconButton,
   TableContainer,
   TablePagination,
-  Alert,
 } from '@mui/material';
 // components
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
-import AmountBox from '../components/accountbook/Box';
+
+import { getCurrentUser } from '../utils/AuthUtils';
 import TableCreate from '../components/accountbook/TableCreate';
 import TableForm from '../components/accountbook/Form';
 // sections
 import { AppWidgetSummary } from '../sections/@dashboard/app';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
-// mock
-// import USERLIST from '../_mock/user';
 // utils
 import * as TableAPI from '../utils/TableAPI';
 
@@ -63,7 +61,7 @@ function applySortFilter(array, query) {
 }
 
 export default function BookPage() {
-  const [open, setOpen] = useState(null);
+  // const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
 
@@ -81,7 +79,7 @@ export default function BookPage() {
 
 
   useEffect(() => {
-    TableAPI.getAll().then(
+    TableAPI.getAll(getCurrentUser().id).then(
       res => {
         setTables(res.data);
         setLoad(true);
@@ -96,10 +94,10 @@ export default function BookPage() {
   const addLine = (newline) => {
     console.log("addLine");
     alert("addline");
-    setError(null);
-    setLoad(true);
     setTables([...tables, newline]);
   }
+
+  
 
   const update = (oldLine, newLine) => {
     // redux code : https://redux.js.org/usage/structuring-reducers/immutable-update-patterns#updating-an-item-in-an-array
@@ -121,13 +119,6 @@ export default function BookPage() {
     const newtables = tables.filter((item, index) => index !== lineIndex);
     setTables(newtables);
   }
-  const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setOpen(null);
-  };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -253,41 +244,6 @@ export default function BookPage() {
                           handleDelete={remove}
                           handleClick={handleClick}
                         />)
-                    //   <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedRow} sx>
-                    //     <TableCell padding="checkbox">
-                    //       <Checkbox checked={selectedRow} onChange={(event) => handleClick(event, id)} />
-                    //     </TableCell>
-
-                    //     <TableCell component="th" scope="row" padding="none">
-                    //       <Stack direction="row" alignItems="center" spacing={2}>
-                    //         <Avatar alt={category} src={avatarUrl} />
-                    //         <Typography variant="subtitle2" noWrap>
-                    //           {category}
-                    //         </Typography>
-                    //       </Stack>
-                    //     </TableCell>
-
-                    //     <TableCell align="left">{date}</TableCell>
-
-                    //     <TableCell align="left">{amount}</TableCell>
-
-                    //     <TableCell align="left">{comment}</TableCell>
-
-                    //     <TableCell align="left">
-
-                    //       <MenuItem>
-                    //         <Iconify icon={'eva:edit-fill'} />
-                    //         Edit
-                    //       </MenuItem>
-
-                    //       <MenuItem sx={{ color: 'error.main' }}>
-                    //         <Iconify icon={'eva:trash-2-outline'}  />
-                    //         Delete
-                    //       </MenuItem>
-
-                    //     </TableCell>
-                    //   </TableRow>
-                    // );
                   })}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
@@ -336,35 +292,6 @@ export default function BookPage() {
           />
         </Card>
       </Container>
-
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            width: 140,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
-        <MenuItem>
-          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-
-        <MenuItem sx={{ color: 'error.main' }}>
-          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
-      </Popover>
     </>
   );
 }

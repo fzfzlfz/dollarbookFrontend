@@ -4,6 +4,7 @@ import TableCreate from './TableCreate';
 import Form from './Form';
 import * as TableAPI from '../../utils/TableAPI';
 import AmountBox from './Box';
+import { getCurrentUser } from '../../utils/AuthUtils';
 
 const Table = () => {
 
@@ -12,13 +13,14 @@ const Table = () => {
   const [tables, setTables] = useState([]);
 
   useEffect(() => {
-    TableAPI.getAll().then(
+    TableAPI.getAll(getCurrentUser().id).then(
       res => {
         setTables(res.data);
         setLoad(true);
       }
     ).catch(
       err => {
+        
         setError(err);
         setLoad(true);
       }
