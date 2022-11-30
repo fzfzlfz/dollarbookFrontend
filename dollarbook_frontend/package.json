@@ -56,6 +56,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "http://linserv1.cims.nyu.edu:21019",
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/eslint-parser": "^7.19.1",
