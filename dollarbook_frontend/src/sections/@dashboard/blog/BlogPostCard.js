@@ -11,16 +11,16 @@ BlogPostCard.propTypes = {
   index: PropTypes.number,
 };
 
-export default function BlogPostCard() {
-  const handleChange = () => {
-
-  }
+export default function BlogPostCard(props) {
+  
   const photosId = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
   const photoslink = photosId.map(curr => `/assets/images/avatars/avatar_${curr}.jpg`)
-  const photos = photoslink.map(link => <Avatar src={link} sx={{ width: 100, height: 100 }} onClick={handleChange}/>)
+  const photos = photoslink.map(link => 
+      <Avatar src={link} sx={{ width: 100, height: 100 }} onMouseOver={() => props.onChosePic(link)}/>
+    )
   return (
-    <Stack direction="row" spacing={4} alignItems="center">
-      {photos}
-    </Stack>
+    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+        {photos}
+    </Grid>
   );
 }

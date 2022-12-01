@@ -99,7 +99,7 @@ export default function AnalysisPage() {
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={4}>
             <AppCurrentVisits
-              title="Current Visits"
+              title="Pie Chart"
               chartData={[
                 { label: 'Food', value: getFood() },
                 { label: 'Shopping', value: getShopping() },
@@ -120,8 +120,8 @@ export default function AnalysisPage() {
 
           <Grid item xs={12} md={6} lg={8}>
             <AppConversionRates
-              title="Conversion Rates"
-              subheader="(+43%) than last year"
+              title="Bar Chart"
+              subheader="see the amount you spend on!"
               chartData={[
                 { label: 'Food', value: getFood() },
                 { label: 'Shopping', value: getShopping() },
