@@ -17,7 +17,7 @@ const TableForm = (props) => {
         return flag;
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const data = {
             "date": date,
@@ -26,8 +26,10 @@ const TableForm = (props) => {
             "comment": comment,
             "userid": getCurrentUser().id
         };
-        TableAPI.create(data).then(
-            res => {
+        console.log('Added data', data);
+        await TableAPI.create(data).then(
+            () => {
+                console.log('TableAPI.create(data)');
                 props.addLine(data);
                 setDate("");
                 setAmount("");

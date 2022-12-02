@@ -1,21 +1,52 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // @mui
-import { Grid, Button, Box, Container, Stack, Typography, Avatar, Card, CardMedia, CardActions } from '@mui/material';
+import { Grid, Button, Box, Container, Stack, Typography, Avatar, Card, CardContent, CardActions } from '@mui/material';
 // components
-import Iconify from '../components/iconify';
-import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../sections/@dashboard/blog';
+import { BlogPostCard } from '../sections/@dashboard/blog';
 
-
-
+// utils
+import * as AuthAPI from '../utils/AuthAPI';
+import { getCurrentUser } from '../utils/AuthUtils';
 // ----------------------------------------------------------------------
 
 
 export default function ProfilePage() {
-  const [pic, setPic] = useState("/assets/images/avatars/avatar_default.jpg");
+  const navigate = useNavigate();
+  const defaultpic = "/assets/images/avatars/avatar_default.jpg";
+
+  useEffect(() => {
+    setPic(getCurrentUser().photo)
+  }, []);
+
+  const [pic, setPic] = useState(defaultpic);
+
   const onChosePic = (link) => {
     setPic(link);
   }
+
+  const changePic = async () => {
+    await AuthAPI.changePic(getCurrentUser().id,pic).then(
+      res => {
+        // update current user info
+        const token = getCurrentUser().accessToken;
+        const user = res.data;
+        user.accessToken = token;
+        localStorage.setItem("user",JSON.stringify(user));
+      }
+    )
+    console.log(getCurrentUser())
+    navigate('/home/profile')
+    
+  }
+
+  const getDefaultPic = () => {
+    setPic(defaultpic);
+  }
+
+  
+
   return (
     <>
       <Helmet>
@@ -34,17 +65,17 @@ export default function ProfilePage() {
             Pick A Photo For You!
           </Typography>
         </Stack>
-      <Box component="span" style={{justifyContent: "space-between"}}>
-        <Box >  
-            <Avatar src={pic} sx={{ width: 100, height: 100 }}/>
-            <Button size="small">Change</Button>
-        </Box>
-      </Box>
-      <div>
-        <Grid display="flex">
+        <Card style={{display:"flex"}}>
+            <Avatar src={pic} sx={{ width: 200, height: 200 }} style={{display: "inline-block"}}/>
+            <CardActions>
+              <Button size="small" variant="outlined" onClick={changePic}>Submit</Button>
+              <Button size="small" variant="contained" onClick={getDefaultPic}>Default</Button>
+            </CardActions>  
+            <CardContent />
+        </Card>
+        <Card>
           <BlogPostCard onChosePic={onChosePic}/>
-        </Grid>
-      </div>
+        </Card>
       </Container>
 
     </>
